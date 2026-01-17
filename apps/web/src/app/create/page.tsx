@@ -112,6 +112,7 @@ export default function CreateProjectPage() {
             type="text"
             placeholder="Project Name"
             value={title}
+            autoComplete="off"
             onChange={(e) => setTitle(e.target.value)}
           />
 
