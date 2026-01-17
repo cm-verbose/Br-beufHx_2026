@@ -1,0 +1,24 @@
+.SideBar {
+  height: 92vh;
+  width: 15vw;
+  max-width: 15vw;
+  border-right: 1px solid black;
+  box-sizing: border-box;
+  padding: 1rem;
+
+  ul > li {
+    margin-bottom: 0.5em;
+    transition: 250ms;
+    cursor: pointer;
+    user-select: none;
+  }
+
+   ul > li:not(.active):hover {
+    font-weight: 600;
+   }
+
+  .active {
+    color: #DA3E3E;
+    font-weight: 500;
+  }
+}
