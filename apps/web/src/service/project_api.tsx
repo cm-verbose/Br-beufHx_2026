@@ -5,12 +5,18 @@ export enum CategoryProject {
   DEVOIR = "DEVOIR",
   EXAM = "EXAM",
 }
+export enum Status {
+  NOT_STARTED = "NOT_STARTED",
+  IN_PROGRESS = "IN_PROGRESS",
+  FINISHED = "FINISHED",
+}
 
 export interface Task {
   id?: number;
   name: string;
   description: string;
   projectId?: number;
+  state?: Status;
   children?: Task[];
 }
 
@@ -28,6 +34,13 @@ export interface ProjectResponse extends ProjectDTO {
 }
 
 const ProjectAPI = {
+  updateTaskStatus: async (taskId: number, status: Status) => {
+    const response = await api.patch(`/task/${taskId}/status`, {
+      state: status,
+    });
+    return response.data;
+  },
+
   getAllProjects: async () => {
     const response = await api.get<ProjectResponse[]>("/project");
     return response.data;
