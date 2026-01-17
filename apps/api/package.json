@@ -26,6 +26,7 @@
     "@prisma/adapter-pg": "^7.2.0",
     "@repo/db": "workspace:*",
     "@types/pg": "^8.16.0",
+    "class-validator": "^0.14.3",
     "dotenv": "^17.2.3",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
