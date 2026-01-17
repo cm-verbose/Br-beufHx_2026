@@ -6,6 +6,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import "./style.scss";
+import ProjectAPI, { ProjectResponse } from "@/service/project_api";
 
 type CurrentView = "details" | "tasks" | "roadmap";
 
@@ -15,14 +16,34 @@ type CurrentView = "details" | "tasks" | "roadmap";
  */
 export default function ProjectPage() {
   const params = useParams();
-  const [project, setProject] = useState({} as Project);
+  const [project, setProject] = useState<ProjectResponse | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [view, setView] = useState<CurrentView>("details");
   useEffect(() => {
-    axios.get(`http://127.0.0.1:4000/project/${params.id}`).then((res) => {
-      setProject(res.data);
-    });
+    if (params.id) {
+      ProjectAPI.getProjectById(Number(params.id))
+        .then((data) => {
+          setProject(data);
+        })
+        .catch((err) => console.error("Can't load the project", err))
+        .finally(() => setLoading(false));
+    }
   }, [params.id]);
 
+  if (loading) {
+    return (
+      <AppLayout>
+        <div className="p-10 text-center">Loading project...</div>
+      </AppLayout>
+    );
+  }
+  if (!project) {
+    return (
+      <AppLayout>
+        <div className="p-10 text-center">Project not found</div>
+      </AppLayout>
+    );
+  }
   return (
     <AppLayout>
       <div className="Focused-Project">
