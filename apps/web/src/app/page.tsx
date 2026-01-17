@@ -7,6 +7,7 @@ import AppLayout from "@/components/AppLayout/AppLayout";
 import DataPoint from "@/components/DataPoint/DataPoint";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import ProjectAPI from "@/service/project_api";
 
 function isTaskDone(t: any): boolean {
   if (typeof t?.done === "boolean") return t.done;
@@ -28,16 +29,9 @@ export default function Dashboard() {
   const [data, setData] = useState<any[]>([]); // tableau de projets
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:4000/project")
-      .then((res) => {
-        const arr = Array.isArray(res.data) ? res.data : [];
-        setData(arr);
-      })
-      .catch((err) => {
-        console.error("GET /project failed", err);
-        setData([]);
-      });
+    ProjectAPI.getAllProjects().then((res) => {
+      setData(res);
+    });
   }, []);
 
   const stats = useMemo(() => {

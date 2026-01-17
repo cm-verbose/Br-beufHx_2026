@@ -14,6 +14,10 @@ export class CreateProjectDTO {
   @IsString()
   title!: string;
 
+  @IsOptional()
+  @IsString()
+  description?: string;
+
   @IsEnum(CategoryProject)
   category!: CategoryProject;
 

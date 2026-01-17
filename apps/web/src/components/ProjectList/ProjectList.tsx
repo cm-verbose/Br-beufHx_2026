@@ -1,7 +1,5 @@
 "use client";
 
-import axios from "axios";
-import type { Project as ProjectInterface } from "@repo/db";
 import { useEffect, useState } from "react";
 import Project from "../../components/Project/project";
 import "./styles.scss";

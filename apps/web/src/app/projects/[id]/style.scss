@@ -34,4 +34,53 @@
   nav > button {
     cursor: pointer;
   }
+
+  .project-details {
+    padding: 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .project-details h3 {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #9ca3af;
+    margin-bottom: 0.75rem;
+    margin-top: 2.5rem;
+    font-weight: 700;
+  }
+
+  .project-details h3:first-of-type {
+    margin-top: 0;
+  }
+
+  .project-details p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: #374151;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-details p:nth-of-type(1) {
+    display: inline-block;
+    background-color: #f3f4f6;
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .meta-info {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e7eb;
+
+    display: flex;
+    gap: 3rem;
+
+    font-size: 1.1rem;
+    color: #6b7280;
+    font-family: monospace;
+  }
 }
