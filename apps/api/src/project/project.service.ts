@@ -7,7 +7,7 @@ export class ProjectService {
   constructor(private prismaService: PrismaService) {}
 
   async createProject(projectDTO: CreateProjectDTO) {
-    return this.prismaService.project.create({
+    return await this.prismaService.project.create({
       data: {
         category: projectDTO.category,
         title: projectDTO.title,
@@ -16,11 +16,17 @@ export class ProjectService {
     });
   }
   async getProjects() {
-    return this.prismaService.project.findMany();
+    return await this.prismaService.project.findMany();
+  }
+
+  async getProject(id: number) {
+    return this.prismaService.project.findUnique({
+      where: { id: id },
+    });
   }
 
   async getProjectByName(name: string) {
-    return this.prismaService.project.findMany({
+    return await this.prismaService.project.findMany({
       where: { title: name },
     });
   }
@@ -91,7 +97,7 @@ export class ProjectService {
   }
 
   async deleteProject(id: number) {
-    return this.prismaService.project.delete({
+    return await this.prismaService.project.delete({
       where: { id: id },
     });
   }

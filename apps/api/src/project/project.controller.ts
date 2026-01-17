@@ -12,7 +12,13 @@ export class ProjectController {
 
   @Get()
   async getProjects() {
-    return this.projectService.getProjects();
+    return await this.projectService.getProjects();
+  }
+
+  @Get(":id")
+  async getProject(@Param("id", ParseIntPipe) id: number) {
+    console.log(id);
+    return await this.projectService.getProject(id);
   }
 
   @Get("search/:name")

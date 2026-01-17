@@ -1,0 +1,21 @@
+.Project {
+  width: 250px;
+  border: 1px solid black;
+  border-radius: 8px;
+  display: grid;
+  box-sizing: border-box;
+  gap: 0.5em;
+
+  #cover {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-color: #202020;
+    border-radius: 8px;
+  }
+
+  h2 {
+    font-weight: 500;
+    font-size: 1.25em;
+    padding: 0.25em;
+  }
+}

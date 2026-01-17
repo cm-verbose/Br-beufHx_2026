@@ -1,0 +1,38 @@
+.AppHeader {
+  height: 8vh;
+  border-bottom: 1px solid black;
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+
+  #main-search {
+    border: 1px solid black;
+    height: 2.4rem;
+    width: 35%;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    gap: 0.8ch;
+    box-sizing: border-box;
+    padding: 10px;
+
+    input {
+      display: block;
+      width: 100%;
+      outline: none;
+      border: none;
+      background-color: transparent;
+      width: 100%;
+
+      &::placeholder {
+        user-select: none;
+      }
+    }
+
+    img {
+      width: 1.25em;
+      height: 1.25em;
+    }
+  }
+}
