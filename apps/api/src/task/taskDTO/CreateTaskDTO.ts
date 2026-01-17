@@ -1,20 +1,26 @@
-generator client {
-  provider = "prisma-client-js"
+import { IsOptional, IsString, IsEnum, IsInt } from "class-validator";
+import { TaskState } from "@repo/db";
+
+export class CreateTaskDTO {
+  @IsString()
+  name!: string;
+
+  @IsString()
+  description!: string;
+
+  @IsOptional()
+  @IsEnum(TaskState)
+  state?: TaskState;
+
+  @IsInt()
+  projectId!: number;
+
+  @IsOptional()
+  @IsInt()
+  parentId?: number;
 }
 
-datasource db {
-  provider = "postgresql"
-}
-
-model Project {
-  id Int @id @default(autoincrement())
-  title String
-  estimatedEndDate DateTime
-  category CategoryProject
-  createdDate DateTime @default(now())
-  Tasks Task[] 
-}
-
+/*
 model Task {
   id Int @id @default(autoincrement())
   name String
@@ -28,15 +34,4 @@ model Task {
   parent Task? @relation("TaskHistory",fields: [parentId],references: [id])
 
   children Task[] @relation("TaskHistory")
-}
-
-enum CategoryProject{
-    DEVOIR
-    EXAM
-    PROJET
-}
-enum TaskState{
-  IN_PROGRESS
-  FINISHED
-  NOT_STARTED
-}
+} */

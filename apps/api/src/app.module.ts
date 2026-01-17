@@ -1,4 +1,7 @@
 import { Module } from "@nestjs/common";
+import { ProjectModule } from './project/project.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { TaskModule } from './task/task.module';
 
-@Module({ imports: [], controllers: [], providers: [] })
+@Module({ imports: [ProjectModule, PrismaModule, TaskModule], controllers: [], providers: [] })
 export class AppModule {}
