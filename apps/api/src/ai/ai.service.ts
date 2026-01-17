@@ -15,8 +15,7 @@ export class AiService {
   }
   async generateProjectPlan(description: string) {
     const today = new Date().toISOString().split("T")[0];
-    const prompt = `
-      You are an expert Project Manager API. 
+    const prompt = `You are an expert Project Manager API. 
     
     Current Date: ${today} (YYYY-MM-DD).
     
@@ -28,10 +27,12 @@ export class AiService {
     2. "category" MUST be exactly one of: "PROJET", "DEVOIR", "EXAM".
     3. Use the key "Tasks" (capital T) for the list of tasks.
     4. Create at least 3 levels of depth (Phase -> Task -> Subtask).
+    5. Generate a concise "description" (2-3 sentences) summarizing the project goals.
     
     Strictly follow this JSON structure and return ONLY the JSON object:
     {
       "title": "Project Title",
+      "description": "A brief summary of the project goals and scope",
       "estimatedEndDate": "ISO-8601 Date String (YYYY-MM-DD)",
       "category": "PROJET",
       "Tasks": [

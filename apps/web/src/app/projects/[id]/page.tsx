@@ -57,7 +57,23 @@ export default function ProjectPage() {
           {(() => {
             switch (view) {
               case "details": {
-                return <div>{project.category}</div>;
+                return (
+                  <div className="project-details">
+                    <h3>Category</h3>
+                    <p style={{ fontSize: "1.2rem", marginBottom: "1.5rem" }}>{project.category}</p>
+
+                    <h3>Description</h3>
+                    <p>
+                      {(project as any).description || "No description provided for this project."}
+                    </p>
+
+                    <div className="meta-info">
+                      Created on: {new Date(project.createdDate || Date.now()).toLocaleDateString()}
+                      <br />
+                      Estimated End: {new Date(project.estimatedEndDate).toLocaleDateString()}
+                    </div>
+                  </div>
+                );
               }
               case "roadmap": {
                 return <div>Roadmap</div>;

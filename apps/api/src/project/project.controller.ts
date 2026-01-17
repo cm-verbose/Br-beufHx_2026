@@ -16,12 +16,6 @@ export class ProjectController {
   }
 
   @Get(":id")
-  async getProject(@Param("id", ParseIntPipe) id: number) {
-    console.log(id);
-    return await this.projectService.getProject(id);
-  }
-
-  @Get(":id")
   async getProjectById(@Param("id", ParseIntPipe) id: number) {
     return this.projectService.getProjectById(id);
   }
