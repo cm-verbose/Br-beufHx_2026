@@ -27,6 +27,25 @@ export class TaskService {
     });
   }
 
+  async getTaskById(id: number) {
+    return this.prismaService.task.findMany({
+      where: { id: id },
+    });
+  }
+
+  async updateTask(id: number, updateDTO: CreateTaskDTO) {
+    return this.prismaService.task.update({
+      where: { id: id },
+      data: {
+        name: updateDTO.name,
+        description: updateDTO.description,
+        projectId: updateDTO.projectId,
+        parentId: updateDTO.parentId,
+        state: updateDTO.state,
+      },
+    });
+  }
+
   async deleteTask(id: number) {
     return this.prismaService.task.delete({
       where: { id: id },
