@@ -1,10 +1,13 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import CreateProjectForm from "@/components/CreateProjectForm/CreateProjectForm";
+import CreateProjectForms from "@/components/CreateProjectForm/CreateProjectForms";
+import ProjectAPI, { CategoryProject, ProjectDTO } from "@/service/project_api";
+import { useState, useRef, useMemo } from "react";
 import "./style.scss";
+import { useRouter } from "next/navigation";
 
 type Mode = "PROMPT" | "FORM";
-
 type Task = {
   id: number;
   label: string;
@@ -12,10 +15,10 @@ type Task = {
 };
 
 export default function CreateProjectPage() {
-  const [page, setPage] = useState<0 | 1 | 2>(0);
-
-  const [mode, setMode] = useState<Mode>("FORM");
+  const router = useRouter();
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [mode, setMode] = useState<Mode>("PROMPT");
   const [prompt, setPrompt] = useState("");
 
   const [taskValue, setTaskValue] = useState("");
@@ -29,37 +32,11 @@ export default function CreateProjectPage() {
     return tasks.map((t) => ({ id: t.id, label: t.label }));
   }, [tasks]);
 
-  function goNext() {
-    setPage((p) => (p < 2 ? ((p + 1) as 0 | 1 | 2) : p));
-  }
-
-  function goBack() {
-    setPage((p) => (p > 0 ? ((p - 1) as 0 | 1 | 2) : p));
-  }
-
-  function resetAll() {
-    setPage(0);
-    setMode("FORM");
-    setTitle("");
-    setPrompt("");
-    setTaskValue("");
-    setParentChoice("none");
-    setTasks([]);
-    nextTaskId.current = 1;
-  }
-
   function addTask() {
     const label = taskValue.trim();
     if (!label) return;
-
     const parentId = parentChoice === "none" ? null : parentChoice;
-
-    const newTask: Task = {
-      id: nextTaskId.current++,
-      label,
-      parentId,
-    };
-
+    const newTask: Task = { id: nextTaskId.current++, label, parentId };
     setTasks((prev) => [...prev, newTask]);
     setTaskValue("");
     setParentChoice("none");
@@ -72,235 +49,160 @@ export default function CreateProjectPage() {
     });
   }
 
-  function setTaskParent(taskId: number, newParentId: number | null) {
-    setTasks((prev) =>
-      prev.map((t) => {
-        if (t.id !== taskId) return t;
-        if (newParentId === t.id) return t; // safety
-        return { ...t, parentId: newParentId };
-      }),
-    );
-  }
-
   function submitCreate() {
-    const payload = {
+    const payload: ProjectDTO = {
       title: title.trim(),
-      mode,
-      prompt: mode === "PROMPT" ? prompt.trim() : null,
-      tasks: mode === "FORM" ? tasks : [],
+      description: description.trim(),
+      category: CategoryProject.PROJET,
+      estimatedEndDate: new Date().toISOString(),
+      Tasks: [],
     };
-
-    console.log("CREATE_PROJECT_PAYLOAD", payload);
-    alert("Projet prêt (payload loggué dans la console).");
+    ProjectAPI.createManualProject(payload);
+    router.push("/projects");
   }
 
   return (
-    <div className="Creation-Form">
-      {page === 0 && (
-        <form
-          className="card"
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!titleOk) return;
-            goNext();
-          }}
-        >
-          <h1>Create new project</h1>
-
-          <input
-            id="project-creation-input"
-            type="text"
-            placeholder="Project Name"
-            value={title}
-            autoComplete="off"
-            onChange={(e) => setTitle(e.target.value)}
-          />
-
-          <div className="modeRow" role="radiogroup" aria-label="Creation mode">
-            <label className={`modeChip ${mode === "PROMPT" ? "active" : ""}`}>
+    <div className="create-project-container">
+      <CreateProjectForms>
+        <CreateProjectForm title="1. Project General Information">
+          <div className="card">
+            <div className="form-group">
+              <label>
+                Project Name <span className="required">*</span>
+              </label>
               <input
-                type="radio"
-                name="mode"
-                checked={mode === "PROMPT"}
-                onChange={() => setMode("PROMPT")}
+                type="text"
+                placeholder="e.g. My Awesome App"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
-              Prompt
-            </label>
+              {!titleOk && <span className="error-text">⚠️ Project name is required.</span>}
+            </div>
 
-            <label className={`modeChip ${mode === "FORM" ? "active" : ""}`}>
-              <input
-                type="radio"
-                name="mode"
-                checked={mode === "FORM"}
-                onChange={() => setMode("FORM")}
+            <div className="form-group">
+              <label>
+                Description <span className="optional">(Optional)</span>
+              </label>
+              <textarea
+                placeholder="What is this project about?"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={3}
               />
-              Form tasks
-            </label>
-          </div>
-
-          <div className="actions">
-            <button type="submit" disabled={!titleOk}>
-              next
-            </button>
-          </div>
-        </form>
-      )}
-
-      {page === 1 && mode === "PROMPT" && (
-        <div className="card">
-          <h1>Prompt</h1>
-          <p className="sub">
-            Projet: <strong>{title}</strong>
-          </p>
-
-          <textarea
-            id="project-prompt"
-            placeholder="Describe your project..."
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-          />
-
-          <div className="actions">
-            <button type="button" onClick={goBack}>
-              back
-            </button>
-            <button type="button" onClick={goNext}>
-              next
-            </button>
-          </div>
-        </div>
-      )}
-
-      {page === 1 && mode === "FORM" && (
-        <div className="card">
-          <h1>Add tasks</h1>
-          <p className="sub">
-            Tasks for: <strong>{title}</strong>
-          </p>
-
-          <ul className="taskList">
-            {tasks.map((t) => {
-              const parent = t.parentId ? tasks.find((x) => x.id === t.parentId) : null;
-
-              return (
-                <li key={t.id} className="taskItem">
-                  <div className="taskLeft">
-                    <div className="taskLabel">{t.label}</div>
-                    <div className="taskMeta">
-                      parent: <strong>{parent ? parent.label : "none"}</strong>
-                    </div>
-                  </div>
-
-                  <div className="taskRight">
-                    <select
-                      value={t.parentId ?? "none"}
-                      onChange={(e) => {
-                        const v = e.target.value;
-                        setTaskParent(t.id, v === "none" ? null : Number(v));
-                      }}
-                    >
-                      <option value="none">no parent</option>
-                      {parentOptions
-                        .filter((opt) => opt.id !== t.id)
-                        .map((opt) => (
-                          <option key={opt.id} value={opt.id}>
-                            {opt.label}
-                          </option>
-                        ))}
-                    </select>
-
-                    <button type="button" className="danger" onClick={() => removeTask(t.id)}>
-                      remove
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-
-          <form
-            className="addRow"
-            onSubmit={(e) => {
-              e.preventDefault();
-              addTask();
-            }}
-          >
-            <input
-              className="taskInput"
-              placeholder="Input new task"
-              value={taskValue}
-              onChange={(e) => setTaskValue(e.target.value)}
-            />
-
-            <select
-              className="parentSelect"
-              value={parentChoice}
-              onChange={(e) => {
-                const v = e.target.value;
-                setParentChoice(v === "none" ? "none" : Number(v));
-              }}
-            >
-              <option value="none">no parent</option>
-              {parentOptions.map((opt) => (
-                <option key={opt.id} value={opt.id}>
-                  depends on: {opt.label}
-                </option>
-              ))}
-            </select>
-
-            <button type="submit">Add Task</button>
-          </form>
-
-          <div className="actions">
-            <button type="button" onClick={goBack}>
-              back
-            </button>
-            <button type="button" onClick={goNext}>
-              next
-            </button>
-          </div>
-        </div>
-      )}
-
-      {page === 2 && (
-        <div className="card">
-          <h1>Review</h1>
-
-          <div className="reviewRow">
-            <div className="reviewKey">Title</div>
-            <div className="reviewVal">{title}</div>
-          </div>
-
-          <div className="reviewRow">
-            <div className="reviewKey">Mode</div>
-            <div className="reviewVal">{mode}</div>
-          </div>
-
-          {mode === "PROMPT" ? (
-            <div className="reviewBlock">
-              <div className="reviewKey">Prompt</div>
-              <pre className="preview">{prompt || "(empty)"}</pre>
             </div>
-          ) : (
-            <div className="reviewBlock">
-              <div className="reviewKey">Tasks</div>
-              <pre className="preview">{JSON.stringify(tasks, null, 2)}</pre>
+          </div>
+        </CreateProjectForm>
+        <CreateProjectForm title="2. Tasks Configuration">
+          <div className="card">
+            <div className="mode-selection">
+              <p className="mode-title">How do you want to build?</p>
+              <div className="radio-group">
+                <label className={mode === "PROMPT" ? "active" : ""}>
+                  <input
+                    type="radio"
+                    checked={mode === "PROMPT"}
+                    onChange={() => setMode("PROMPT")}
+                  />
+                  AI Generation (Prompt)
+                </label>
+                <label className={mode === "FORM" ? "active" : ""}>
+                  <input type="radio" checked={mode === "FORM"} onChange={() => setMode("FORM")} />
+                  Manual Tasks
+                </label>
+              </div>
             </div>
-          )}
 
-          <div className="actions">
-            <button type="button" onClick={goBack}>
-              back
-            </button>
-            <button type="button" onClick={submitCreate}>
-              create
-            </button>
-            <button type="button" className="ghost" onClick={resetAll}>
-              reset
+            {mode === "PROMPT" ? (
+              <div className="form-group">
+                <p className="optional">
+                  Describe what you want, and we will generate the tasks for you.
+                </p>
+                <textarea
+                  placeholder="I want a CRM system with user login..."
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  rows={6}
+                />
+              </div>
+            ) : (
+              <div>
+                <ul className="task-list">
+                  {tasks.length === 0 && (
+                    <li style={{ color: "#999", fontStyle: "italic" }}>No tasks added yet.</li>
+                  )}
+                  {tasks.map((t) => (
+                    <li key={t.id}>
+                      <span>
+                        <strong>{t.label}</strong>
+                        {t.parentId && (
+                          <span className="task-meta">(Depends on ID:{t.parentId})</span>
+                        )}
+                      </span>
+                      <button type="button" className="btn-remove" onClick={() => removeTask(t.id)}>
+                        Remove
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="add-task-row">
+                  <input
+                    placeholder="New task name"
+                    value={taskValue}
+                    onChange={(e) => setTaskValue(e.target.value)}
+                  />
+                  <select
+                    value={parentChoice}
+                    onChange={(e) =>
+                      setParentChoice(e.target.value === "none" ? "none" : Number(e.target.value))
+                    }
+                  >
+                    <option value="none">No Parent</option>
+                    {parentOptions.map((opt) => (
+                      <option key={opt.id} value={opt.id}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                  <button type="button" className="btn-add" onClick={addTask}>
+                    Add
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </CreateProjectForm>
+
+        <CreateProjectForm title="3. Review & Submit">
+          <div className="card">
+            <h3>Project Summary</h3>
+
+            <div className="summary-grid">
+              <strong>Name:</strong> <span>{title}</span>
+              <strong>Desc:</strong> <span>{description || "N/A"}</span>
+              <strong>Mode:</strong>{" "}
+              <span>{mode === "PROMPT" ? "AI Generation" : "Manual Tasks"}</span>
+            </div>
+
+            <div style={{ marginTop: "1rem" }}>
+              <strong>Configuration Content:</strong>
+              <div className="code-preview">
+                {mode === "PROMPT" ? (
+                  prompt || <span style={{ color: "#ef4444" }}>(Empty Prompt)</span>
+                ) : tasks.length > 0 ? (
+                  JSON.stringify(tasks, null, 2)
+                ) : (
+                  <span style={{ color: "#ef4444" }}>(No tasks defined)</span>
+                )}
+              </div>
+            </div>
+
+            <button className="btn-submit" onClick={submitCreate} disabled={!titleOk}>
+              Create Project
             </button>
           </div>
-        </div>
-      )}
+        </CreateProjectForm>
+      </CreateProjectForms>
     </div>
   );
 }

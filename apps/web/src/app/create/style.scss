@@ -1,208 +1,197 @@
-.Creation-Form {
-  padding: 5em;
+/* --- Variables --- */
+$primary-color: #2563eb;
+$success-color: #16a34a;
+$danger-color: #dc2626;
+$text-color: #333;
+$text-light: #666;
+$bg-light: #f9f9f9;
+$border-color: #e5e7eb;
+$radius: 8px;
 
-  h1 {
-    font-size: 2em;
-    margin: 0 0 0.6em 0;
-  }
+/* --- Main Container --- */
+.create-project-container {
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: $text-color;
 
+  /* Card Style */
   .card {
-    max-width: 720px;
-  }
-
-  .sub {
-    margin: 0 0 1em 0;
-    opacity: 0.8;
-  }
-
-  #project-creation-input {
-    border: none;
-    border-bottom: 1px solid black;
-    font-size: 1.5em;
-    outline: none;
-    margin-top: 0.6em;
-    width: 100%;
-    padding: 0.25em 0;
-  }
-
-  #project-prompt {
-    width: 100%;
-    min-height: 180px;
-    resize: vertical;
-    font-size: 1em;
-    padding: 0.8em;
-    border-radius: 10px;
-    border: 1px solid #bbb;
-    outline: none;
-  }
-
-  .modeRow {
-    display: flex;
-    gap: 0.8em;
-    margin-top: 1em;
-  }
-
-  .modeChip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6ch;
-    border: 1px solid #bbb;
-    border-radius: 999px;
-    padding: 0.35em 0.8em;
-    cursor: pointer;
-    user-select: none;
-
-    input {
-      margin: 0;
-    }
-
-    &.active {
-      border-color: black;
-      font-weight: 700;
-    }
-  }
-
-  button {
-    border: 1px solid black;
-    border-radius: 8px;
-    font-size: 0.9em;
-    padding: 0.35em 0.8em;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5ch;
-    margin-top: 1em;
-    cursor: pointer;
     background: white;
+    border: 1px solid $border-color;
+    border-radius: $radius;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    h3 {
+      margin-top: 0;
+      border-bottom: 2px solid $bg-light;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
   }
 
-  .actions {
-    display: flex;
-    gap: 0.7em;
-    margin-top: 1em;
-    flex-wrap: wrap;
+  /* --- Form Elements --- */
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+
+      .required { color: $danger-color; }
+      .optional { color: $text-light; font-weight: 400; font-size: 0.9em; }
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+
+      &:focus {
+        outline: 2px solid $primary-color;
+        border-color: transparent;
+      }
+    }
   }
 
-  .ghost {
-    border-color: #bbb;
+  /* --- Mode Selection (Step 2) --- */
+  .mode-selection {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: 1rem;
+
+    .mode-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 1.5rem;
+
+      label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: background 0.2s;
+
+        &:hover { background: $bg-light; }
+        &.active { font-weight: bold; color: $primary-color; }
+      }
+    }
   }
 
-  .danger {
-    border-color: #e23b3b;
-  }
-
-  .taskList {
+  /* --- Task List (Step 2) --- */
+  .task-list {
     list-style: none;
     padding: 0;
-    margin: 1em 0;
+    margin: 0 0 1.5rem 0;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: $bg-light;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      border-radius: 4px;
+      border: 1px solid transparent;
+
+      &:hover { border-color: $border-color; }
+
+      .task-meta {
+        font-size: 0.85rem;
+        color: $text-light;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+
+  /* --- Add Task Row --- */
+  .add-task-row {
     display: flex;
-    flex-direction: column;
-    gap: 0.7em;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px dashed $border-color;
+
+    input { flex: 1; padding: 0.6rem; border: 1px solid #ccc; border-radius: 4px; }
+    select { padding: 0.6rem; border: 1px solid #ccc; border-radius: 4px; }
   }
 
-  .taskItem {
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 0.8em;
-    display: flex;
-    justify-content: space-between;
-    gap: 1em;
-  }
-
-  .taskLeft {
-    min-width: 0;
-  }
-
-  .taskLabel {
-    font-weight: 800;
-    font-size: 1.05em;
-    word-break: break-word;
-  }
-
-  .taskMeta {
-    margin-top: 0.2em;
-    opacity: 0.7;
-    font-size: 0.9em;
-  }
-
-  .taskRight {
-    display: flex;
-    gap: 0.6em;
-    align-items: center;
-
-    select {
-      border: 1px solid #bbb;
-      border-radius: 10px;
-      padding: 0.35em 0.6em;
-      outline: none;
-      background: white;
-    }
-
-    button {
-      margin-top: 0;
-    }
-  }
-
-  .addRow {
-    display: flex;
-    gap: 0.7em;
-    align-items: center;
-    flex-wrap: wrap;
-
-    .taskInput {
-      flex: 1;
-      min-width: 220px;
-      border: 1px solid #bbb;
-      border-radius: 10px;
-      padding: 0.55em 0.8em;
-      outline: none;
-    }
-
-    .parentSelect {
-      min-width: 220px;
-      border: 1px solid #bbb;
-      border-radius: 10px;
-      padding: 0.55em 0.8em;
-      outline: none;
-      background: white;
-    }
-
-    button {
-      margin-top: 0;
-    }
-  }
-
-  .reviewRow {
+  /* --- Review Section (Step 3) --- */
+  .summary-grid {
     display: grid;
     grid-template-columns: 120px 1fr;
-    gap: 0.8em;
-    padding: 0.5em 0;
-    border-bottom: 1px solid #eee;
+    row-gap: 0.75rem;
+    margin-bottom: 1.5rem;
+
+    strong { color: $text-light; }
   }
 
-  .reviewKey {
-    opacity: 0.7;
-    font-weight: 700;
+  .code-preview {
+    background: #1e293b;
+    color: #f1f5f9;
+    padding: 1rem;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 0.5rem;
   }
 
-  .reviewVal {
-    font-weight: 800;
+  /* --- Buttons --- */
+  button {
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+
+    &.btn-remove {
+      color: $danger-color;
+      background: transparent;
+      &:hover { text-decoration: underline; }
+    }
+
+    &.btn-add {
+      background: $text-color;
+      color: white;
+      padding: 0 1rem;
+      &:hover { background: black; }
+    }
+
+    &.btn-submit {
+      width: 100%;
+      padding: 0.85rem;
+      background: $success-color;
+      color: white;
+      font-size: 1rem;
+      margin-top: 1rem;
+
+      &:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+      &:not(:disabled):hover {
+        background: darken($success-color, 5%);
+      }
+    }
   }
 
-  .reviewBlock {
-    margin-top: 1em;
-  }
-
-  .preview {
-    margin-top: 0.6em;
-    padding: 0.8em;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    background: #fafafa;
-    overflow: auto;
+  .error-text {
+    color: $danger-color;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: block;
   }
 }

@@ -17,6 +17,7 @@ export interface Task {
 export interface ProjectDTO {
   title: string;
   category: CategoryProject;
+  description: string;
   estimatedEndDate: string;
   Tasks?: Task[];
 }
