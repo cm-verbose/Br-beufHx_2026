@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    // Completeness
+    "skipLibCheck": true,
+
+    // Interop Constraints
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": false,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+
+    // JavaScript
+    "allowJs": true,
+
+    // Language & Environment
+    "jsx": "react-jsx",
+    "target": "esnext",
+
+    // Modules
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+
+    // Projects
+    "incremental": true,
+
+    // Type Checking
+    "noImplicitAny": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true
+  },
+  "exclude": ["dist", "node_modules"]
+}

@@ -1,0 +1,79 @@
+# Build
+.expo/
+.next/
+.turbo/
+.vercel/
+build/
+dist/
+out/
+web-build/
+*.tsbuildinfo
+
+# Build (mobile)
+.kotlin/
+android/
+ios/
+**.gitignore
+
+# Cached
+.eslintcache
+.stylelintcache
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Database
+**/generated/prisma/
+*.db
+*.db-journal
+
+# Environment variables
+.env
+*.jks
+*.key
+*.mobileprovision
+*.p8
+*.p12
+*.pem
+*.orig.*
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Logs
+pids
+*.log
+*.pid
+*.pid.lock
+*.seed
+.metro-health-check*
+lerna-debug.log*
+npm-debug.log*
+pnpm-debug.log*
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+yarn-debug.log*
+yarn-error.log*
+
+# System files and folders
+__MACOSX/
+.DS_Store
+
+# Test output
+.nyc_output/
+coverage/
+
+# Temporary files
+.temp
+.tmp
+expo-env.d.ts
+
+# Turborepo
+.turbo/
+
+# Vercel
+.vercel/

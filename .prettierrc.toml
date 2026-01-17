@@ -1,0 +1,8 @@
+bracketSpacing = true
+endOfLine = "lf"
+jsxSingleQuote = false
+objectWrap = "preserve"
+printWidth = 100
+semi = true
+singleQuote = false
+useTabs = false

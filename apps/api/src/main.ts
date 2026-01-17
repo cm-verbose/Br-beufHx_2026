@@ -1,0 +1,12 @@
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  await app.listen(process.env.PORT ?? 4000);
+}
+
+bootstrap().catch((e) => {
+  console.error(`Failed to lauch back-end: ${e}`);
+  process.exit(1);
+});

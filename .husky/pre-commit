@@ -1,0 +1,4 @@
+pnpm run check-types
+pnpm run format
+pnpm run alex
+pnpm dlx lint-staged

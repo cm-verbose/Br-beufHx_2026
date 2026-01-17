@@ -1,0 +1,10 @@
+{
+  "*.{ts,tsx}": [
+    "pnpm dlx eslint --fix",
+    "prettier --write"
+  ],
+  "*.md": [
+    "alex",
+    "prettier --write"
+  ]
+}

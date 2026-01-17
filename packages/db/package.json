@@ -1,0 +1,22 @@
+{
+  "name": "@repo/db",
+  "private": true,
+  "version": "0.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@prisma/client": "7.2.0"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "db:gen": "pnpm prisma generate",
+    "db:mig": "pnpm prisma migrate dev"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^25.0.3",
+    "prisma": "7.2.0"
+  }
+}
