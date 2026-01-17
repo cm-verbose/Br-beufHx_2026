@@ -6,7 +6,7 @@ export default function AppHeader() {
   return (
     <header className="AppHeader">
       <div id="main-search">
-        <Image src="./svg/search.svg" loading="eager" width={32} height={32} alt="Search Icon" />
+        <Image src="/svg/search.svg" loading="eager" width={32} height={32} alt="Search Icon" />
         <input placeholder="Search" autoComplete="off" spellCheck="false" />
       </div>
     </header>

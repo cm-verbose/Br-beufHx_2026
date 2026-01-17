@@ -23,19 +23,18 @@ export default function Dashboard() {
                 <span>4</span>
                 <div>Projects Due</div>
               </div>
-
               <div className="dataPoint">
                 <span>4</span>
                 <div>Recently completed</div>
               </div>
             </div>
-
             <button
               onClick={() => {
                 router.push("/projects");
               }}
             >
-              View projects <Image src="./svg/arrow.svg" alt="arrow" width={32} height={32} />
+              View projects{" "}
+              <Image src="./svg/arrow.svg" alt="arrow" priority width={32} height={32} />
             </button>
           </section>
 
@@ -57,9 +56,9 @@ export default function Dashboard() {
                 <div>Current Progression</div>
               </div>
             </div>
-
             <button>
-              View due Tasks <Image src="./svg/arrow.svg" alt="arrow" width={32} height={32} />
+              View due Tasks{" "}
+              <Image src="./svg/arrow.svg" priority alt="arrow" width={32} height={32} />
             </button>
           </section>
         </div>

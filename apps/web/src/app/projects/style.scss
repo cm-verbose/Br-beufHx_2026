@@ -1,0 +1,41 @@
+.Project-View {
+  box-sizing: border-box;
+  padding: 2rem;
+
+  h1 {
+    font-weight: 500;
+    font-size: 2.5em;
+  }
+
+  h2 {
+    font-weight: 500;
+    font-size: 1.5em;
+  }
+
+  #option-joiner {
+    margin-top: 1.5rem;
+  }
+
+  #options {
+    display: flex;
+    gap: 1ch;
+  }
+
+  button {
+    display: flex;
+    border: 1px solid black;
+    border-radius: 8px;
+    font-size: 0.8em;
+    padding: 0em 0.4em;
+    display: flex;
+    align-items: center;
+    gap: 0.5ch;
+    margin-top: 1em;
+    cursor: pointer;
+  }
+
+  #project-section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
