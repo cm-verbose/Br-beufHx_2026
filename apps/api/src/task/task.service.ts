@@ -21,14 +21,8 @@ export class TaskService {
     return this.prismaService.task.findMany();
   }
 
-  async getTaskByName(name: string) {
-    return this.prismaService.task.findMany({
-      where: { name: name },
-    });
-  }
-
   async getTaskById(id: number) {
-    return this.prismaService.task.findMany({
+    return this.prismaService.task.findUnique({
       where: { id: id },
     });
   }

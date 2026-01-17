@@ -21,11 +21,6 @@ export class ProjectController {
     return await this.projectService.getProject(id);
   }
 
-  @Get("search/:name")
-  async getProjectByName(@Param("name") name: string) {
-    return this.projectService.getProjectByName(name);
-  }
-
   @Get(":id")
   async getProjectById(@Param("id", ParseIntPipe) id: number) {
     return this.projectService.getProjectById(id);

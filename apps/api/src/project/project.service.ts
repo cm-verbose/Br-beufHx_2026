@@ -58,11 +58,6 @@ export class ProjectService {
     });
   }
 
-  async getProjectByName(name: string) {
-    return await this.prismaService.project.findMany({
-      where: { title: name },
-    });
-  }
   async getProjectById(id: number) {
     return this.prismaService.project.findUnique({
       where: { id: id },
