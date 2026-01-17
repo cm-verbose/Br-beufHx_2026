@@ -1,5 +1,14 @@
 import { CategoryProject } from "@repo/db";
-import { IsString, IsEnum, IsDateString } from "class-validator";
+import { Type } from "class-transformer";
+import {
+  IsString,
+  IsEnum,
+  IsDateString,
+  IsOptional,
+  IsArray,
+  ValidateNested,
+} from "class-validator";
+import { CreateTaskDTO } from "src/task/taskDTO/CreateTaskDTO";
 
 export class CreateProjectDTO {
   @IsString()
@@ -10,4 +19,10 @@ export class CreateProjectDTO {
 
   @IsDateString()
   estimatedEndDate!: string;
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateTaskDTO)
+  Tasks?: CreateTaskDTO[];
 }

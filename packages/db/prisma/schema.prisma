@@ -21,8 +21,8 @@ model Task {
   description String
   state TaskState @default(NOT_STARTED)
 
-  projectId Int
-  project Project @relation(fields: [projectId],references: [id],onDelete: Cascade)
+  projectId Int?
+  project Project? @relation(fields: [projectId],references: [id],onDelete: Cascade)
   //TODO: A TASK CAN HAS MULTIPLE FATHERS
   parentId Int?
   parent Task? @relation("TaskHistory",fields: [parentId],references: [id])
