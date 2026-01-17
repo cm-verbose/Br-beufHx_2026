@@ -6,6 +6,39 @@ import { CreateProjectDTO } from "./projectDTO/CreateProjectDTO";
 export class ProjectService {
   constructor(private prismaService: PrismaService) {}
 
+  private buildTaskTree(taskDTO: any) {
+    return {
+      name: taskDTO.name,
+      description: taskDTO.description,
+      children:
+        taskDTO.children && taskDTO.children.length > 0
+          ? {
+              create: taskDTO.children.map((child: any) => this.buildTaskTree(child)),
+            }
+          : undefined,
+    };
+  }
+
+  async createProjectByAI(projectDTO: CreateProjectDTO) {
+    const tasksToCreate = projectDTO.Tasks || [];
+
+    return this.prismaService.project.create({
+      data: {
+        title: projectDTO.title,
+        category: projectDTO.category,
+        estimatedEndDate: new Date(projectDTO.estimatedEndDate),
+        Tasks: { create: tasksToCreate.map((task) => this.buildTaskTree(task)) },
+      },
+      include: {
+        Tasks: {
+          include: {
+            children: true,
+          },
+        },
+      },
+    });
+  }
+
   async createProject(projectDTO: CreateProjectDTO) {
     return await this.prismaService.project.create({
       data: {
@@ -55,43 +88,6 @@ export class ProjectService {
         category: projectDTO.category,
         title: projectDTO.title,
         estimatedEndDate: new Date(projectDTO.estimatedEndDate),
-      },
-    });
-  }
-
-  async createProjectFromAI(aiData: any) {
-    // 1. Recursive helper to format children for Prisma
-    const mapTasksRecursive = (tasks: any[]) => {
-      if (!tasks || tasks.length === 0) return undefined;
-
-      return {
-        create: tasks.map((task) => ({
-          name: task.name,
-          description: task.description,
-          state: "NOT_STARTED", // Default state for RPG logic
-          // RECURSION: If this task has children, format them too!
-          children: task.children ? mapTasksRecursive(task.children) : undefined,
-        })),
-      };
-    };
-
-    // 2. Save everything in ONE database transaction
-    return await this.prismaService.project.create({
-      data: {
-        title: aiData.title,
-        category: aiData.category,
-        // Ensure date is a valid Date object
-        estimatedEndDate: new Date(aiData.estimatedEndDate),
-        Tasks: mapTasksRecursive(aiData.Tasks),
-      },
-      include: {
-        Tasks: {
-          include: {
-            children: {
-              include: { children: true },
-            },
-          },
-        },
       },
     });
   }

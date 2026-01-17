@@ -42,10 +42,16 @@ export class ProjectController {
   }
 
   @Post("generate")
-  async generateAndSave(@Body() body: { description: string }) {
+  async generatePlan(@Body() body: { description: string }) {
     const aiData = await this.aiService.generateProjectPlan(body.description);
     return aiData;
   }
+
+  @Post("save-project")
+  async saveGeneratedProject(@Body() projectDTO: CreateProjectDTO) {
+    return this.projectService.createProjectByAI(projectDTO);
+  }
+
   @Delete(":id")
   async deleteTaskById(@Param("id", ParseIntPipe) id: number) {
     return this.projectService.deleteProject(id);
