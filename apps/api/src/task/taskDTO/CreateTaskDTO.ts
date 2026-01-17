@@ -27,19 +27,3 @@ export class CreateTaskDTO {
   @Type(() => CreateTaskDTO) //
   children?: CreateTaskDTO[];
 }
-
-/*
-model Task {
-  id Int @id @default(autoincrement())
-  name String
-  description String
-  state TaskState @default(NOT_STARTED)
-
-  projectId Int
-  project Project @relation(fields: [projectId],references: [id],onDelete: Cascade)
-  //TODO: A TASK CAN HAS MULTIPLE FATHERS
-  parentId Int?
-  parent Task? @relation("TaskHistory",fields: [parentId],references: [id])
-
-  children Task[] @relation("TaskHistory")
-} */

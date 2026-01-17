@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import "./style.scss";
 
 type Mode = "PROMPT" | "FORM";
@@ -78,7 +78,7 @@ export default function CreateProjectPage() {
         if (t.id !== taskId) return t;
         if (newParentId === t.id) return t; // safety
         return { ...t, parentId: newParentId };
-      })
+      }),
     );
   }
 
