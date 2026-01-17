@@ -3,6 +3,16 @@
 
   h1 {
     font-size: 2em;
+    margin: 0 0 0.6em 0;
+  }
+
+  .card {
+    max-width: 720px;
+  }
+
+  .sub {
+    margin: 0 0 1em 0;
+    opacity: 0.8;
   }
 
   #project-creation-input {
@@ -10,19 +20,189 @@
     border-bottom: 1px solid black;
     font-size: 1.5em;
     outline: none;
+    margin-top: 0.6em;
+    width: 100%;
+    padding: 0.25em 0;
+  }
+
+  #project-prompt {
+    width: 100%;
+    min-height: 180px;
+    resize: vertical;
+    font-size: 1em;
+    padding: 0.8em;
+    border-radius: 10px;
+    border: 1px solid #bbb;
+    outline: none;
+  }
+
+  .modeRow {
+    display: flex;
+    gap: 0.8em;
     margin-top: 1em;
   }
 
+  .modeChip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6ch;
+    border: 1px solid #bbb;
+    border-radius: 999px;
+    padding: 0.35em 0.8em;
+    cursor: pointer;
+    user-select: none;
+
+    input {
+      margin: 0;
+    }
+
+    &.active {
+      border-color: black;
+      font-weight: 700;
+    }
+  }
+
   button {
-    display: flex;
     border: 1px solid black;
     border-radius: 8px;
-    font-size: 0.8em;
-    padding: 0em 0.4em;
-    display: flex;
+    font-size: 0.9em;
+    padding: 0.35em 0.8em;
+    display: inline-flex;
     align-items: center;
     gap: 0.5ch;
     margin-top: 1em;
     cursor: pointer;
+    background: white;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.7em;
+    margin-top: 1em;
+    flex-wrap: wrap;
+  }
+
+  .ghost {
+    border-color: #bbb;
+  }
+
+  .danger {
+    border-color: #e23b3b;
+  }
+
+  .taskList {
+    list-style: none;
+    padding: 0;
+    margin: 1em 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
+  }
+
+  .taskItem {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 0.8em;
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+  }
+
+  .taskLeft {
+    min-width: 0;
+  }
+
+  .taskLabel {
+    font-weight: 800;
+    font-size: 1.05em;
+    word-break: break-word;
+  }
+
+  .taskMeta {
+    margin-top: 0.2em;
+    opacity: 0.7;
+    font-size: 0.9em;
+  }
+
+  .taskRight {
+    display: flex;
+    gap: 0.6em;
+    align-items: center;
+
+    select {
+      border: 1px solid #bbb;
+      border-radius: 10px;
+      padding: 0.35em 0.6em;
+      outline: none;
+      background: white;
+    }
+
+    button {
+      margin-top: 0;
+    }
+  }
+
+  .addRow {
+    display: flex;
+    gap: 0.7em;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .taskInput {
+      flex: 1;
+      min-width: 220px;
+      border: 1px solid #bbb;
+      border-radius: 10px;
+      padding: 0.55em 0.8em;
+      outline: none;
+    }
+
+    .parentSelect {
+      min-width: 220px;
+      border: 1px solid #bbb;
+      border-radius: 10px;
+      padding: 0.55em 0.8em;
+      outline: none;
+      background: white;
+    }
+
+    button {
+      margin-top: 0;
+    }
+  }
+
+  .reviewRow {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0.8em;
+    padding: 0.5em 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .reviewKey {
+    opacity: 0.7;
+    font-weight: 700;
+  }
+
+  .reviewVal {
+    font-weight: 800;
+  }
+
+  .reviewBlock {
+    margin-top: 1em;
+  }
+
+  .preview {
+    margin-top: 0.6em;
+    padding: 0.8em;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #fafafa;
+    overflow: auto;
   }
 }
