@@ -11,11 +11,6 @@ export class TaskController {
     return this.taskService.createTask(taskDTO);
   }
 
-  @Get(":name")
-  async createTaskByName(@Param("name") name: string) {
-    return this.taskService.getTaskByName(name);
-  }
-
   @Get()
   async getTasks() {
     return this.taskService.getTasks();

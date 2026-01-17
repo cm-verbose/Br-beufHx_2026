@@ -14,29 +14,35 @@ export class AiService {
     });
   }
   async generateProjectPlan(description: string) {
+    const today = new Date().toISOString().split("T")[0];
     const prompt = `
-      You are a Project Manager API. 
-      Generate a structured project plan for: "${description}".
-      
-      Strictly follow this JSON structure. 
-      1. "category" MUST be exactly one of: "PROJET", "DEVOIR", "EXAM".
-      2. Use the key "Tasks" (capital T) for the list of tasks to match my database.
-      
-      Return a single object:
-      {
-        "title": "Project Title",
-        "estimatedEndDate": "ISO-8601 Date String",
-        "category": "PROJET",
-        "Tasks": [
-          {
-            "name": "Task Name",
-            "description": "Short description",
-            "children": [] 
-          }
-        ]
-      }
-      Create at least 3 levels of depth.
-    `;
+      You are an expert Project Manager API. 
+    
+    Current Date: ${today} (YYYY-MM-DD).
+    
+    Generate a structured project plan for: "${description}".
+    
+    Requirements:
+    1. Calculate a realistic "estimatedEndDate" starting from ${today} based on the project's complexity. 
+       The date MUST be in the future (after ${today}).
+    2. "category" MUST be exactly one of: "PROJET", "DEVOIR", "EXAM".
+    3. Use the key "Tasks" (capital T) for the list of tasks.
+    4. Create at least 3 levels of depth (Phase -> Task -> Subtask).
+    
+    Strictly follow this JSON structure and return ONLY the JSON object:
+    {
+      "title": "Project Title",
+      "estimatedEndDate": "ISO-8601 Date String (YYYY-MM-DD)",
+      "category": "PROJET",
+      "Tasks": [
+        {
+          "name": "Task Name",
+          "description": "Short description",
+          "children": [] 
+        }
+      ]
+    }
+  `;
     try {
       const result = await this.model.generateContent(prompt);
       const response = result.response;
